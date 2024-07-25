@@ -25,4 +25,15 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function getSlugAttribute()
+    {
+        $slug = strtolower($this->name);
+
+        $slug = str_replace(' ', '-', $slug);
+
+        $slug = preg_replace('/[^a-zA-Z0-9-]/', '', $slug);
+
+        return $slug;
+    }
+
 }

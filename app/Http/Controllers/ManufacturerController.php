@@ -11,7 +11,7 @@ class ManufacturerController extends Controller
     public function index()
     {
         $manufacturers = Manufacturer::all();
-        return ManufacturerResource::collection($manufacturers);
+        return response()->json([ManufacturerResource::collection($manufacturers)]);
     }
 
     public function filterByBrand($slug)
