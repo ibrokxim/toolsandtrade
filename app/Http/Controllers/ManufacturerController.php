@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ManufacturerResource;
 use App\Models\Category;
 use App\Models\Manufacturer;
+use App\Http\Resources\ManufacturerResource;
 
 class ManufacturerController extends Controller
 {
     public function index()
     {
         $manufacturers = Manufacturer::all();
-        return response()->json([ManufacturerResource::collection($manufacturers)]);
+        return response()->json(ManufacturerResource::collection($manufacturers));
     }
 
     public function filterByBrand($slug)

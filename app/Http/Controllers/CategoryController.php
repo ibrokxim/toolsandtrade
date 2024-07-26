@@ -3,20 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Http\Request;
 use App\Models\Manufacturer;
+use App\Http\Service\CategoryService;
 use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request, CategoryService $categoryService)
     {
-        $categories = Category::all();
+        $categories = $categoryService->filterCategory($request);
         return response()->json(CategoryResource::collection($categories));
     }
 
     public function filterByCategory($slug)
     {
-
         $categories = Category::where('name', $slug)->first();
         if (!$categories) {
             return response()->json(['error' => 'Category not found'], 404);
