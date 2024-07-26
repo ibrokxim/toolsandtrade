@@ -14,10 +14,6 @@ class RegionController extends Controller
         return view('admin.regions.index', compact('regions'));
     }
 
-    public function createForm()
-    {
-        return view('admin.regions.create');
-    }
     public function create(Request $request)
     {
         $validated = $request->validate([

@@ -190,39 +190,41 @@
                                 </li>
                             </ul>
                         </li>
-                        <!--/ User -->
                     </ul>
                 </div>
             </nav>
 
-            <!-- Content wrapper -->
             <div class="content-wrapper">
-                <!-- Content -->
-
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <h4 class="fw-bold py-3 mb-4">Brands</h4>
+                    <h4 class="fw-bold py-3 mb-4">Regions</h4>
+                    <a type="button" href="{{ route('admin.regions.create') }}">
+                        <span class="tf-icons bx "></span>&nbsp; Create
+                    </a>
 
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
-                        <h5 class="card-header">Brands</h5>
+                        <h5 class="card-header">Regions</h5>
+
                         <div class="table-responsive text-nowrap">
                             <table class="table">
                                 <thead>
                                 <tr>
                                     <th>Id</th>
                                     <th>Name</th>
+                                    <th>Categories</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                @foreach($brands as $brand)
+                                @foreach($big_categories as $big_category)
                                     <tr>
-                                        <td>{{$brand->id }}</td>
-                                        <td>{{$brand->name}}</td>
-                                        <td><a type="button" href="{{ route('admin.brands.edit', $brand->id) }}" class="btn btn-primary">Edit</a></td>
+                                        <td>{{$big_category->id }}</td>
+                                        <td>{{$big_category->name}}</td>
+                                        <td>{{$big_category->name}}</td>
+                                        <td><a type="button" href="{{ route('admin.regions.edit', $big_category->id) }}" class="btn btn-primary">Edit</a></td>
                                         <td>
-                                            <form action="{{ route('admin.brands.delete', $brand->id) }}" method="post"  onsubmit="return confirm('Are you sure?');">
+                                            <form action="{{ route('admin.regions.delete', $big_category->id) }}" method="post"  onsubmit="return confirm('Are you sure?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">Delete</button>
@@ -230,17 +232,21 @@
                                         </td>
                                     </tr>
                                 @endforeach
+
                                 </tbody>
                             </table>
-                            {{ $brands->links('pagination::bootstrap-4') }}
                         </div>
                     </div>
 
                 </div>
             </div>
+            <!-- / Content -->
+
+            <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">
 
             </footer>
+            <!-- / Footer -->
 
             <div class="content-backdrop fade"></div>
         </div>
@@ -250,9 +256,6 @@
 </div>
 
 <div class="layout-overlay layout-menu-toggle"></div>
-
-
-
 
 <script src="{{ asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
 <script src="{{ asset('assets/vendor/libs/popper/popper.js')}}"></script>

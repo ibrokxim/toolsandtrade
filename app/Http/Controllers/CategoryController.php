@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Admin\BigCategoryController;
+use App\Http\Resources\BigCategoryResource;
+use App\Models\BigCategory;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Manufacturer;
@@ -15,6 +18,7 @@ class CategoryController extends Controller
         $categories = $categoryService->filterCategory($request);
         return response()->json(CategoryResource::collection($categories));
     }
+
 
     public function filterByCategory($slug)
     {
@@ -34,5 +38,11 @@ class CategoryController extends Controller
            'brand' => $brand,
            'products' => $products,
         ]);
+    }
+
+    public function bigCategories()
+    {
+        $big_categories = BigCategory::with('categories')->get();
+        return BigCategoryResource::collection($big_categories);
     }
 }

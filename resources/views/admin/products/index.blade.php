@@ -216,7 +216,7 @@
                                 </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                @foreach($brands as $brand)
+                                @foreach($products as $brand)
                                     <tr>
                                         <td>{{$brand->id }}</td>
                                         <td>{{$brand->name}}</td>
@@ -232,7 +232,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            {{ $brands->links('pagination::bootstrap-4') }}
+                            {{ $products->links('pagination::bootstrap-4') }}
                         </div>
                     </div>
 

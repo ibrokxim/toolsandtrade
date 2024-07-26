@@ -13,4 +13,11 @@ class CategoryController extends Controller
         $categories = Category::query()->paginate(10);
         return view('admin.categories.index', compact('categories'));
     }
+
+    public function delete($id)
+    {
+        $category = Category::query()->findOrFail($id);
+        $category->delete();
+        return redirect()->route('admin.categories.index')->with('Category deleted successfully');
+    }
 }

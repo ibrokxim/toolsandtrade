@@ -108,7 +108,7 @@
 
             <ul class="menu-inner py-1">
                 <li class="menu-item">
-                    <a href="{{ route('admin.product.index') }}" class="menu-link">
+                    <a href="{{ route('admin.products.index') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Products</div>
                     </a>
@@ -129,6 +129,12 @@
                     <a href="{{ route('admin.brands.index') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Brands</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.big_categories.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                        <div data-i18n="Analytics">Big Categories</div>
                     </a>
                 </li>
             </ul>
@@ -197,7 +203,7 @@
             <div class="content-wrapper">
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4">Regions</h4>
-                    <a type="button" href="{{ route('admin.regions.createForm') }}">
+                    <a type="button" href="{{ route('admin.regions.create') }}">
                         <span class="tf-icons bx "></span>&nbsp; Create
                     </a>
 

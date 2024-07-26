@@ -202,7 +202,6 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4">Regions</h4>
 
-                    <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <h5 class="card-header">Regions</h5>
                         <div class="table-responsive text-nowrap">
@@ -220,9 +219,9 @@
                                     <tr>
                                         <td>{{ $category->id }}</td>
                                         <td>{{$category->name}}</td>
-                                        <td><a type="button" href="{{ route('admin.regions.edit', $category->id) }}" class="btn btn-primary">Edit</a></td>
+                                        <td><a type="button" href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-primary">Edit</a></td>
                                         <td>
-                                            <form action="{{ route('admin.regions.delete', $category->id) }}" method="post"  onsubmit="return confirm('Are you sure?');">
+                                            <form action="{{ route('admin.categories.delete', $category->id) }}" method="post"  onsubmit="return confirm('Are you sure?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">Delete</button>
