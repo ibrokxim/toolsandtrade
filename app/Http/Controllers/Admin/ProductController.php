@@ -11,4 +11,11 @@ class ProductController extends Controller
         $products = Product::query()->paginate(10);
         return view('admin.products.index', compact('products'));
     }
+
+    public function delete($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return redirect()->route('admin.products.index')->with('Product deleted Successfully');
+    }
 }

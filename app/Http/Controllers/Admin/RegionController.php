@@ -14,7 +14,11 @@ class RegionController extends Controller
         return view('admin.regions.index', compact('regions'));
     }
 
-    public function create(Request $request)
+    public function create()
+    {
+        return view('admin.regions.create');
+    }
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'code' => 'required|string|max:10',
@@ -24,7 +28,7 @@ class RegionController extends Controller
 
         $region = new Region($validated);
         $region->save();
-        return redirect()->route('admin.regions.index')->with('Region created successfully!');
+        return redirect()->route('admin.regions.index')->with('success', 'Region created successfully!');
     }
 
     public function edit($id)
