@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Admin\BigCategoryController;
-use App\Http\Resources\BigCategoryResource;
-use App\Models\BigCategory;
 use App\Models\Category;
+use App\Models\BigCategory;
 use Illuminate\Http\Request;
 use App\Models\Manufacturer;
 use App\Http\Service\CategoryService;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\BigCategoryResource;
 
 class CategoryController extends Controller
 {
@@ -43,6 +42,6 @@ class CategoryController extends Controller
     public function bigCategories()
     {
         $big_categories = BigCategory::with('categories')->get();
-        return BigCategoryResource::collection($big_categories);
+        return response()->json(BigCategoryResource::collection($big_categories));
     }
 }

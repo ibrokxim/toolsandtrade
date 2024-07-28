@@ -35,7 +35,9 @@ class ProductController extends Controller
 
     public function show($slug)
     {
-        $product = Product::where('name', $slug)->firstOrFail();
+        $product = Product::with('categories', 'manufacturers')
+            ->where('name', $slug)
+            ->firstOrFail();
         return new ProductFullResource($product);
     }
 

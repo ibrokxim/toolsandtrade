@@ -18,8 +18,10 @@ class ProductFullResource extends JsonResource
             'short_description' => $this->short_description,
             'descripton' => $this->description,
             'characteristics' => $this->characteristics,
-            'category_id' => $this->category_id,
-            'manufacturer_id' => $this->manufacturer_id,
+            'brand' => $this->manufacturers ? $this->manufacturers->name : null,
+            'brand_slug' => $this->manufacturers ? $this->manufacturers->slug : null,
+            'category' => $this->categories ? $this->categories->name : null,
+            'category_slug' => $this->categories ? $this->categories->slug : null,
             'similar_products' => $this->getSimilarProducts()
         ];
     }
@@ -39,7 +41,9 @@ class ProductFullResource extends JsonResource
             return [
                 'id' => $product->id,
                 'name' => $product->name,
+                'slug' => $product->slug,
                 'image' => $product->image,
+                'short_description' => $product->short_description,
             ];
         });
     }

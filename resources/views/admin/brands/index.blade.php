@@ -131,6 +131,12 @@
                         <div data-i18n="Analytics">Brands</div>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.big_categories.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                        <div data-i18n="Analytics">Big Categories</div>
+                    </a>
+                </li>
             </ul>
 
         </aside>
