@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\BigCategory;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class BigCategoryController extends Controller
 {
@@ -23,9 +24,14 @@ class BigCategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
+            'image' => 'nullable|image|max:10000',
         ]);
-        $big_category = new BigCategory($validated);
-        $big_category->save();
+        if ($request->hasFile('image')) {
+            $photoPath = $request->file('image')->store('big_categories', 'public');
+            $validated['image'] = $photoPath;
+        }
+
+        BigCategory::create($validated);
         return redirect()->route('admin.big_categories.index')->with('Big Category Added Successfully');
     }
 
@@ -39,9 +45,18 @@ class BigCategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
+            'image' => 'nullable|image|max:10000'
         ]);
 
         $big_category = BigCategory::findOrFail($id);
+        if ($request->hasFile('image')) {
+            if ($big_category->photo) {
+                Storage::disk('public')->delete($big_category->photo);
+            }
+
+            $photoPath = $request->file('image')->store('big_categories', 'public');
+            $validated['image'] = $photoPath;
+        }
         $big_category->update($validated);
         return redirect()->route('admin.big_categories.index')->with('Big Category Updated Successfully');
     }

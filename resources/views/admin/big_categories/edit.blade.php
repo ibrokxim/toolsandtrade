@@ -49,17 +49,22 @@
 
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h5 class="card-header">Edit Big Category <?php echo $big_category->name ?> </h5>
-                    <form class="card-body" method="post" action="{{ route('admin.big_categories.update', $big_category->id) }}">
+                    <form class="card-body" method="post"  enctype="multipart/form-data" action="{{ route('admin.big_categories.update', $big_category->id) }}">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Name</label>
                             <input type="text" class="form-control" name="name" id="exampleFormControlInput1" value="<?php echo $big_category->name ?>">
                         </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Image</label>
+                            <input class="form-control" type="file" id="formFile" name="image">
+                                @if($big_category->image)
+                                    <img src="{{ asset('storage/' . $big_category->image) }}" alt="{{ $big_category->name }}" style="max-width: 100px; margin-top: 10px;">
+                                @endif
+                        </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </form>
-
-
                 </div>
             </div>
             <footer class="content-footer footer bg-footer-theme">

@@ -17,7 +17,8 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('admin.categories.create');
+        $bigCategories = BigCategory::all(); // Fetch all big categories
+        return view('admin.categories.create', compact('bigCategories'));
     }
 
     public function store(Request $request)

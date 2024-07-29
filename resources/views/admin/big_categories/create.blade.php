@@ -49,11 +49,15 @@
 
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h5 class="card-header">Create Big Category</h5>
-                    <form class="card-body" method="post" action="{{ route('admin.big_categories.store') }}">
+                    <form class="card-body" method="post" enctype="multipart/form-data" action="{{ route('admin.big_categories.store') }}">
                         @csrf
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Name</label>
                             <input type="text" class="form-control" name="name" id="exampleFormControlInput1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Image</label>
+                            <input class="form-control" type="file" id="formFile" name="image">
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </form>

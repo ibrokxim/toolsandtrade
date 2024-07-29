@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Manufacturer;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\Manufacturer;
 
 class SearchController extends Controller
 {
@@ -18,9 +18,25 @@ class SearchController extends Controller
         }
 
 
-        $manufacturers = Manufacturer::where('name', 'LIKE', "%{$query}%")->get();
+        $manufacturers = Manufacturer::where('name', 'LIKE', "%{$query}%")
+            ->get()
+            ->map(function ($manufacturer) {
+                return [
+                    'id' => $manufacturer->id,
+                    'name' => $manufacturer->name,
+                    'slug' => $manufacturer->slug,
+                ];
+            });
 
-        $categories = Category::where('name', 'LIKE', "%{$query}%")->get();
+        $categories = Category::where('name', 'LIKE', "%{$query}%")
+            ->get()
+            ->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                ];
+            });;
 
         $products = Product::where('name', 'LIKE', "%{$query}%")
             ->orWhere('description', 'LIKE', "%{$query}%")

@@ -52,6 +52,16 @@
                             <label for="exampleFormControlInput1" class="form-label">Name</label>
                             <input type="text" class="form-control" name="name" id="exampleFormControlInput1">
                         </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlSelect1" class="form-label">Select a Big Category</label>
+                            <select class="form-select" name="big_category_id" id="exampleFormControlSelect1" aria-label="Default select example">
+                                @foreach($bigCategories as $bigCategory)
+                                    <option value="{{ $bigCategory->id }}">
+                                        {{ $bigCategory->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </form>
                 </div>

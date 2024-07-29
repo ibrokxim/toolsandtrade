@@ -15,11 +15,10 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Tools and Trade</title>
 
     <meta name="description" content="" />
     <link rel="icon" type="image/x-icon" href="{{ asset('/assets/img/favicon/favicon.ico')}}" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -36,7 +35,6 @@
 </head>
 
 <body>
-<!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
         @extends('admin.layouts.aslide')
@@ -65,8 +63,6 @@
                             />
                         </div>
                     </div>
-                    <!-- /Search -->
-
                     <ul class="navbar-nav flex-row align-items-center ms-auto">
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
                             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -75,7 +71,6 @@
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-
                                 <li>
                                     <div class="dropdown-divider"></div>
                                 </li>
@@ -96,18 +91,16 @@
                                 </li>
                             </ul>
                         </li>
-                        <!--/ User -->
                     </ul>
                 </div>
             </nav>
 
-            <!-- Content wrapper -->
             <div class="content-wrapper">
-                <!-- Content -->
-
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4">Products</h4>
-
+                    <a type="button" href="{{ route('admin.products.create') }}">
+                        <span class="tf-icons bx "></span>&nbsp; Create
+                    </a>
                     <div class="card">
                         <h5 class="card-header">Products</h5>
                         <div class="table-responsive text-nowrap">
@@ -140,7 +133,6 @@
                             {{ $products->links('pagination::bootstrap-4') }}
                         </div>
                     </div>
-
                 </div>
             </div>
             <footer class="content-footer footer bg-footer-theme">
@@ -149,9 +141,7 @@
 
             <div class="content-backdrop fade"></div>
         </div>
-        <!-- Content wrapper -->
     </div>
-    <!-- / Layout page -->
 </div>
 
 <div class="layout-overlay layout-menu-toggle"></div>

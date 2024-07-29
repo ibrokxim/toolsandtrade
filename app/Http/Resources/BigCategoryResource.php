@@ -7,15 +7,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class BigCategoryResource extends JsonResource
 {
-
     public static $wrap = null;
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'image' =>  $this->image ? asset('storage/' . $this->image) : null,
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
-
         ];
     }
 }
