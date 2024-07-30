@@ -11,7 +11,6 @@ use App\Http\Controllers\Admin\BigCategoryController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [IndexController::class, 'index'])->name('admin.index');
-
     //Products
     Route::prefix('products')->group(function () {
         Route::get('/products/index', [ProductController::class, 'index'])->name('admin.products.index');

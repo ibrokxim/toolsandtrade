@@ -6,6 +6,8 @@ use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ManufacturerController;
+
+
 // REGIONS
 Route::get('regions', [RegionController::class, 'index']);
 
