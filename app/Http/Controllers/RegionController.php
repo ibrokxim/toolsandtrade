@@ -2,21 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Region;
+use App\Http\Service\RegionService;
 
 class RegionController extends Controller
 {
-    public function index()
+    public function index(RegionService $service)
     {
-        $regions = Region::all()->keyBy('code')->map(function($region) {
-            return [
-                'id' => $region->id,
-                'code' => $region->code,
-                'name' => $region->name,
-                'cities' => $region->cities,
-            ];
-        });
-
+        $regions = $service->getRegionViaCode();
         return response()->json($regions);
     }
 }

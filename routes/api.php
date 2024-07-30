@@ -6,9 +6,6 @@ use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ManufacturerController;
-
-//MAIN
-Route::get('/', [ProductController::class, 'main']);
 // REGIONS
 Route::get('regions', [RegionController::class, 'index']);
 
@@ -17,13 +14,16 @@ Route::get('brands', [ManufacturerController::class, 'index']);
 Route::get('brands/{slug}', [ManufacturerController::class, 'filterByBrand']);
 
 //CATEGORIES
-Route::get('categories', [CategoryController::class, 'index']);
-Route::get('categories/{slug}', [CategoryController::class, 'filterByCategory']);
+Route::get('categories', [CategoryController::class, 'getCategories']);
+Route::get('categories/{slug}', [CategoryController::class, 'getCategoriesBySlugWithRelations']);
 Route::get('big_category', [CategoryController::class, 'bigCategories']);
 
+//MAIN
+Route::get('/', [ProductController::class, 'showRandomProductsInMainPage']);
+
 //PRODUCTS
-Route::get('products', [ProductController::class, 'index']);
-Route::get('products/{slug}', [ProductController::class, 'show']);
+Route::get('products', [ProductController::class, 'getAllProducts']);
+Route::get('products/{slug}', [ProductController::class, 'showProduct']);
 
 //SEARCH
 Route::get('search', [SearchController::class, 'search']);
