@@ -1,24 +1,32 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BigCategoryController;
 
+Route::middleware(['admin'])->group(function () {
+    Route::get('{country}/admin', [AuthController::class, 'login'])->name('admin.login');
+//    Route::get('/admin/{any?}', function () {
+//        return redirect()->route('admin.login');
+//    })->where('any', '.*');
+});
 
 Route::prefix('admin')->group(function () {
-    Route::get('/', [IndexController::class, 'index'])->name('admin.index');
+    Route::get('/login', [AuthController::class, 'login'])->name('admin.login');
+    Route::post('/login', [AuthController::class, 'authenticate'])->name('admin.authenticate');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
     //Products
     Route::prefix('products')->group(function () {
-        Route::get('/products/index', [ProductController::class, 'index'])->name('admin.products.index');
-        Route::get('/products/create', [ProductController::class, 'create'])->name('admin.products.create');
-        Route::post('/products', [ProductController::class, 'store'])->name('admin.products.store');
-        Route::get('/products/edit/{id}', [ProductController::class, 'edit'])->name('admin.products.edit');
-        Route::put('/products/update/{id}', [ProductController::class, 'update'])->name('admin.products.update');
-        Route::delete('/products/delete/{id}', [ProductController::class, 'delete'])->name('admin.products.delete');
+        Route::get('/index', [ProductController::class, 'index'])->name('admin.products.index');
+        Route::get('/create', [ProductController::class, 'create'])->name('admin.products.create');
+        Route::post('/store', [ProductController::class, 'store'])->name('admin.products.store');
+        Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('admin.products.edit');
+        Route::put('/update/{id}', [ProductController::class, 'update'])->name('admin.products.update');
+        Route::delete('/delete/{id}', [ProductController::class, 'delete'])->name('admin.products.delete');
     });
     //Brands
     Route::prefix('brands')->group(function () {

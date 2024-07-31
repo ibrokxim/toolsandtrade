@@ -32,4 +32,10 @@ class CategoryController extends Controller
         $big_categories = BigCategory::with('categories')->get();
         return response()->json(BigCategoryResource::collection($big_categories));
     }
+
+    public function bigCategoriesBySlug($slug)
+    {
+        $big_category = $this->categoryService->getBigCategoryWithRelations($slug);
+        return response()->json($big_category);
+    }
 }

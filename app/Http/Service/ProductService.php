@@ -17,7 +17,7 @@ class ProductService
             $productQuery->whereIn('category_id',$categoryId);
         }
 
-        $products = $productQuery->paginate(16);
+        $products = $productQuery->paginate(15);
         $query = [
             'data' => ProductResource::collection($products),
             'pagination' => [

@@ -8,7 +8,7 @@ class RegionService
 {
     public function getRegionViaCode()
     {
-        $regions = Region::all()->keyBy('code')->map(function($region) {
+        return Region::all()->keyBy('code')->map(function($region) {
             return [
                 'id' => $region->id,
                 'code' => $region->code,
@@ -16,7 +16,5 @@ class RegionService
                 'cities' => $region->cities,
             ];
         });
-
-        return $regions;
     }
 }
