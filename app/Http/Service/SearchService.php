@@ -31,9 +31,18 @@ class SearchService
                 ->orWhere('description', 'LIKE', "%{$query}%")
                 ->orWhere('short_description', 'LIKE', "%{$query}%");
         })
-            ->select('id', 'name', 'short_description', 'description')
+            ->select('id', 'name', 'short_description', 'description', 'image')
             ->paginate(15);
 
+        $productsData = collect($products->items())->map(function ($product) {
+            return [
+                'id' => $product['id'],
+                'name' => $product['name'],
+                'slug' => $product['slug'],
+                'short_description' => $product['short_description'],
+                'image' => $product['image'],
+            ];
+        });
         return [
         'manufacturers' => [
             'data' => $manufacturers->items(),
@@ -58,7 +67,7 @@ class SearchService
             ],
         ],
         'products' => [
-            'data' => $products->items(),
+            'data' => $productsData,
             'pagination' => [
                 'total' => $products->total(),
                 'per_page' => $products->perPage(),
