@@ -42,7 +42,7 @@ class ProductService
 
     public function randomProducts()
     {
-        $products = Product::inRandomOrder()->limit(3)->get();
+        $products = Product::inRandomOrder()->limit(10)->get();
         return $products;
     }
 }

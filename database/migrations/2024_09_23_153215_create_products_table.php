@@ -16,9 +16,9 @@ return new class extends Migration
             $table->text('short_description');
             $table->longText('description');
             $table->text('characteristics');
-            $table->string('manufacturer');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignId('manufacturer_id')->constrained('manufacturer')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

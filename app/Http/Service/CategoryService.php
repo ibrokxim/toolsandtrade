@@ -98,6 +98,15 @@ class CategoryService
                 'id' => $category->id,
                 'name' => $category->name,
                 'slug' => $slug,
+                'products' => $category->products->map(function ($product) {
+                    return [
+                        'id' => $product->id,
+                        'name' => $product->name,
+                        'slug' => $product->slug,
+                        'short_description' => $product->short_description,
+                        'image' => $product->image,
+                    ];
+                }),
             ];
         });
 

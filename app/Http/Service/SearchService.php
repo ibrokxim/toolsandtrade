@@ -10,22 +10,27 @@ use Illuminate\Support\Facades\DB;
 
 class SearchService
 {
-    public function searchByAllTypes(Request $request)
+    public function searchManufacturers(Request $request)
     {
         $query = $request->input('query');
-
-        if (!$query) {
-            return response()->json(['error' => 'No search query provided'], 400);
-        }
-
         $manufacturers = Manufacturer::where('name', 'LIKE', "%{$query}%")
             ->select('id', 'name', DB::raw("REPLACE(LOWER(name), ' ', '-') as slug"))
             ->paginate(15);
+        return $manufacturers;
+    }
 
+    public function searchCategories(Request $request)
+    {
+        $query = $request->input('query');
         $categories = Category::where('name', 'LIKE', "%{$query}%")
             ->select('id', 'name', DB::raw("REPLACE(LOWER(name), ' ', '-') as slug"))
             ->paginate(15);
+        return $categories;
+    }
 
+    public function searchProducts(Request $request)
+    {
+        $query = $request->input('query');
         $products = Product::where(function($q) use ($query) {
             $q->where('name', 'LIKE', "%{$query}%")
                 ->orWhere('description', 'LIKE', "%{$query}%")
@@ -43,6 +48,26 @@ class SearchService
                 'image' => $product['image'],
             ];
         });
+        return [
+            'data' => $productsData,
+            'pagination' => [
+                'total' => $products->total(),
+                'per_page' => $products->perPage(),
+                'current_page' => $products->currentPage(),
+                'last_page' => $products->lastPage(),
+                'next_page_url' => $products->nextPageUrl(),
+                'prev_page_url' => $products->previousPageUrl(),
+            ],
+        ];
+    }
+
+
+    public function searchByAllTypes(Request $request)
+    {
+        $manufacturers = $this->searchManufacturers($request);
+        $categories = $this->searchCategories($request);
+        $products = $this->searchProducts($request);
+
         return [
         'manufacturers' => [
             'data' => $manufacturers->items(),
@@ -66,17 +91,7 @@ class SearchService
                 'prev_page_url' => $categories->previousPageUrl(),
             ],
         ],
-        'products' => [
-            'data' => $productsData,
-            'pagination' => [
-                'total' => $products->total(),
-                'per_page' => $products->perPage(),
-                'current_page' => $products->currentPage(),
-                'last_page' => $products->lastPage(),
-                'next_page_url' => $products->nextPageUrl(),
-                'prev_page_url' => $products->previousPageUrl(),
-            ],
-        ],
+            'products'=>$products
         ];
     }
 
