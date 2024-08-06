@@ -4,10 +4,12 @@ namespace App\Http\Service;
 
 use App\Models\Category;
 use App\Models\Manufacturer;
+use App\Traits\PaginationTrait;
 use App\Http\Resources\CategoryResource;
 
 class ManufacturerService
 {
+    use PaginationTrait;
     public function filterByBrands($slug)
     {
         $slug = str_replace('-', ' ', $slug);
@@ -29,14 +31,7 @@ class ManufacturerService
             'categories' => $categoriesResource,
             'brands' => $brand,
             'products' => $products,
-            'pagination' => [
-                'total' => $products->total(),
-                'per_page' => $products->perPage(),
-                'current_page' => $products->currentPage(),
-                'last_page' => $products->lastPage(),
-                'next_page_url' => $products->nextPageUrl(),
-                'prev_page_url' => $products->previousPageUrl(),
-            ],
+            'pagination' => $this->paginate($products),
         ];
     }
 }

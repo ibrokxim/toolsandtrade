@@ -19,49 +19,54 @@ Route::prefix('admin')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('admin.login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('admin.authenticate');
     Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+
     //Products
-    Route::prefix('products')->group(function () {
-        Route::get('/index', [ProductController::class, 'index'])->name('admin.products.index');
-        Route::get('/create', [ProductController::class, 'create'])->name('admin.products.create');
-        Route::post('/store', [ProductController::class, 'store'])->name('admin.products.store');
-        Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('admin.products.edit');
-        Route::put('/update/{id}', [ProductController::class, 'update'])->name('admin.products.update');
-        Route::delete('/delete/{id}', [ProductController::class, 'delete'])->name('admin.products.delete');
-    });
+    Route::resource('products', ProductController::class)->names([
+        'index' => 'admin.products.index',
+        'create' => 'admin.products.create',
+        'store' => 'admin.products.store',
+        'edit' => 'admin.products.edit',
+        'update' => 'admin.products.update',
+        'destroy' => 'admin.products.delete',
+    ]);
+
     //Brands
-    Route::prefix('brands')->group(function () {
-        Route::get('/index', [BrandsController::class, 'index'])->name('admin.brands.index');
-        Route::get('/create', [BrandsController::class, 'create'])->name('admin.brands.create');
-        Route::post('/store', [BrandsController::class, 'store'])->name('admin.brands.store');
-        Route::get('/edit/{id}', [BrandsController::class, 'edit'])->name('admin.brands.edit');
-        Route::put('/update/{id}', [BrandsController::class, 'update'])->name('admin.brands.update');
-        Route::delete('/delete/{id}', [BrandsController::class, 'delete'])->name('admin.brands.delete');
-    });
+    Route::resource('brands', BrandsController::class)->names([
+        'index' => 'admin.brands.index',
+        'create' => 'admin.brands.create',
+        'store' => 'admin.brands.store',
+        'edit' => 'admin.brands.edit',
+        'update' => 'admin.brands.update',
+        'destroy' => 'admin.brands.delete',
+    ]);
+
     //Regions
-    Route::prefix('regions')->group(function () {
-        Route::get('/index', [RegionController::class, 'index'])->name('admin.regions.index');
-        Route::get('/create', [RegionController::class, 'create'])->name('admin.regions.create');
-        Route::post('/store', [RegionController::class, 'store'])->name('admin.regions.store');
-        Route::get('/edit/{id}', [RegionController::class, 'edit'])->name('admin.regions.edit');
-        Route::put('/update/{id}', [RegionController::class, 'update'])->name('admin.regions.update');
-        Route::delete('/delete/{id}', [RegionController::class, 'delete'])->name('admin.regions.delete');
-    });
-    //Categories
-    Route::prefix('categories')->group(function () {
-        Route::get('/index', [CategoryController::class, 'index'])->name('admin.categories.index');
-        Route::get('/create', [CategoryController::class, 'create'])->name('admin.categories.create');
-        Route::post('/store', [CategoryController::class, 'store'])->name('admin.categories.store');
-        Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('admin.categories.edit');
-        Route::put('/update/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
-        Route::delete('/delete/{id}', [CategoryController::class, 'delete'])->name('admin.categories.delete');
-    });
-    //Big Categories
-    Route::prefix('big-categories')->group(function () {
-        Route::get('/index', [BigCategoryController::class, 'index'])->name('admin.big_categories.index');
-        Route::get('/create', [BigCategoryController::class, 'create'])->name('admin.big_categories.create');
-        Route::post('/store', [BigCategoryController::class, 'store'])->name('admin.big_categories.store');
-        Route::get('/edit/{id}', [BigCategoryController::class, 'edit'])->name('admin.big_categories.edit');
-        Route::put('/update/{id}', [BigCategoryController::class, 'update'])->name('admin.big_categories.update');
-        Route::delete('/delete/{id}', [BigCategoryController::class, 'delete'])->name('admin.big_categories.delete');
-    });
+    Route::resource('regions', RegionController::class)->names([
+        'index' => 'admin.regions.index',
+        'create' => 'admin.regions.create',
+        'store' => 'admin.regions.store',
+        'edit' => 'admin.regions.edit',
+        'update' => 'admin.regions.update',
+        'destroy' => 'admin.regions.delete',
+    ]);
+
+    //Category
+    Route::resource('categories', CategoryController::class)->names([
+        'index' => 'admin.categories.index',
+        'create' => 'admin.categories.create',
+        'store' => 'admin.categories.store',
+        'edit' => 'admin.categories.edit',
+        'update' => 'admin.categories.update',
+        'destroy' => 'admin.categories.delete',
+    ]);
+
+    //Big-Category
+    Route::resource('big_categories', BigCategoryController::class)->names([
+        'index' => 'admin.big_categories.index',
+        'create' => 'admin.big_categories.create',
+        'store' => 'admin.big_categories.store',
+        'edit' => 'admin.big_categories.edit',
+        'update' => 'admin.big_categories.update',
+        'destroy' => 'admin.big_categories.delete',
+    ]);
 });

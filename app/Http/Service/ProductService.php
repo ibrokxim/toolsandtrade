@@ -4,10 +4,12 @@ namespace App\Http\Service;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Traits\PaginationTrait;
 use App\Http\Resources\ProductResource;
 
 class ProductService
 {
+    use PaginationTrait;
     public function getProducts(Request $request)
     {
         $categories = $request->query('cats');
@@ -20,14 +22,7 @@ class ProductService
         $products = $productQuery->paginate(15);
         $query = [
             'data' => ProductResource::collection($products),
-            'pagination' => [
-                'total' => $products->total(),
-                'per_page' => $products->perPage(),
-                'current_page' => $products->currentPage(),
-                'last_page' => $products->lastPage(),
-                'next_page_url' => $products->nextPageUrl(),
-                'prev_page_url' => $products->previousPageUrl(),
-            ],
+            'pagination' => $this->paginate($products),
         ];
         return $query;
     }

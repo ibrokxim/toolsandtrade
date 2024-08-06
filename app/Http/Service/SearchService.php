@@ -4,12 +4,14 @@ namespace App\Http\Service;
 
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Manufacturer;
 use Illuminate\Http\Request;
+use App\Models\Manufacturer;
+use App\Traits\PaginationTrait;
 use Illuminate\Support\Facades\DB;
 
 class SearchService
 {
+    use PaginationTrait;
     public function searchManufacturers(Request $request)
     {
         $query = $request->input('query');
@@ -64,32 +66,18 @@ class SearchService
 
     public function searchByAllTypes(Request $request)
     {
-        $manufacturers = $this->searchManufacturers($request);
-        $categories = $this->searchCategories($request);
         $products = $this->searchProducts($request);
+        $categories = $this->searchCategories($request);
+        $manufacturers = $this->searchManufacturers($request);
 
         return [
         'manufacturers' => [
             'data' => $manufacturers->items(),
-            'pagination' => [
-                'total' => $manufacturers->total(),
-                'per_page' => $manufacturers->perPage(),
-                'current_page' => $manufacturers->currentPage(),
-                'last_page' => $manufacturers->lastPage(),
-                'next_page_url' => $manufacturers->nextPageUrl(),
-                'prev_page_url' => $manufacturers->previousPageUrl(),
-            ],
+            'pagination' => $this->paginate($manufacturers),
         ],
         'categories' => [
             'data' => $categories->items(),
-            'pagination' => [
-                'total' => $categories->total(),
-                'per_page' => $categories->perPage(),
-                'current_page' => $categories->currentPage(),
-                'last_page' => $categories->lastPage(),
-                'next_page_url' => $categories->nextPageUrl(),
-                'prev_page_url' => $categories->previousPageUrl(),
-            ],
+            'pagination' => $this->paginate($categories),
         ],
             'products'=>$products
         ];
