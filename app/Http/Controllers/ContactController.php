@@ -16,7 +16,7 @@ class ContactController extends Controller
             'message' => 'required',
         ]);
 
-        Mail::to('thorsonodin2003@gmail.com')->send(new ContactFormMail($data));
+        Mail::to('nibrohim04@gmail.com')->send(new ContactFormMail($data));
 
         return response()->json(['message' => 'Thank you for your message!'], 200);
     }
