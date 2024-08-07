@@ -4,6 +4,7 @@ namespace App\Http\Service;
 
 use App\Models\Category;
 use App\Models\BigCategory;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Manufacturer;
 use App\Traits\PaginationTrait;
@@ -52,12 +53,14 @@ class CategoryService
 
         $brands = $this->getBrandsForCategory($categories->pluck('id')->toArray());
 
+        $products = $this->formatedProducts($categories);
+
         return [
             'big_category' => $this->formatBigCategory($big_category),
             'categories' => $this->formatCategories($categories),
-            'products' => $this->formatedProducts($categories),
+            'products' => $products,
             'brands' => $this->formatBrands($brands),
-
+            'pagination' => $this->paginate($products)
         ];
     }
 
@@ -125,17 +128,9 @@ class CategoryService
     }
     private function formatedProducts($categories)
     {
-        return $categories->flatMap(function ($category) {
-            return $category->products->map(function ($product) use ($category) {
-                return [
-                    'id' => $product->id,
-                    'name' => $product->name,
-                    'slug' => $product->slug,
-                    'short_description' => $product->short_description,
-                    'image' => $product->image,
-                    'category_id' => $category->id,
-                ];
-            });
-        });
+        $productsQuery = Product::whereIn('category_id', $categories->pluck('id'))
+            ->select('id', 'name', 'slug', 'short_description', 'image', 'category_id');
+
+        return $productsQuery->paginate(12);
     }
 }

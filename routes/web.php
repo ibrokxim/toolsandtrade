@@ -21,14 +21,22 @@ Route::prefix('admin')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
     //Products
-    Route::resource('products', ProductController::class)->names([
-        'index' => 'admin.products.index',
-        'create' => 'admin.products.create',
-        'store' => 'admin.products.store',
-        'edit' => 'admin.products.edit',
-        'update' => 'admin.products.update',
-        'destroy' => 'admin.products.delete',
-    ]);
+    Route::prefix('/products')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('admin.products.index');
+        Route::get('/create', [ProductController::class, 'create'])->name('admin.products.create');
+        Route::post('/store', [ProductController::class, 'store'])->name('admin.products.store');
+        Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('admin.products.edit');
+        Route::put('/update/{id}', [ProductController::class, 'update'])->name('admin.products.update');
+        Route::delete('/delete/{id}', [ProductController::class, 'delete'])->name('admin.products.delete');
+    });
+//    Route::resource('products', ProductController::class)->names([
+//        'index' => 'admin.products.index',
+//        'create' => 'admin.products.create',
+//        'store' => 'admin.products.store',
+//        'edit' => 'admin.products.edit',
+//        'update' => 'admin.products.update',
+//        'destroy' => 'admin.products.delete',
+//    ])->except('show');
 
     //Brands
     Route::resource('brands', BrandsController::class)->names([
