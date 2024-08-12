@@ -2,16 +2,17 @@
 
 namespace App\Http\Service;
 
-use App\Models\Category;
-use App\Models\BigCategory;
 use App\Models\Product;
+use App\Models\Category;
+use App\Traits\SlugTrait;
+use App\Models\BigCategory;
 use Illuminate\Http\Request;
 use App\Models\Manufacturer;
 use App\Traits\PaginationTrait;
 
 class CategoryService
 {
-    use PaginationTrait;
+    use PaginationTrait, SlugTrait;
     public function filterCategories(Request $request)
     {
         $query = Category::query();
@@ -29,9 +30,9 @@ class CategoryService
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
-
-        $brands = $this->getBrandsForCategory($category);
-        $products = $category->products()->paginate(12);
+        $categoryID = $category->id;
+        $brands = $this->getBrandsForCategory($categoryID);
+        $products = $category->products()->paginate(16);
 
         return[
             'category' => $category,
@@ -64,20 +65,41 @@ class CategoryService
         ];
     }
 
-    public function findCategoryBySlug($slug): Category
+    public function findCategoryBySlug($slug)
     {
-        $slug = str_replace('-', ' ', $slug);
-        return Category::where('name', 'like', '%' . $slug . '%')->first();
+       $categories = Category::all();
+       $matchingCategory = null;
+
+       foreach ($categories as $category) {
+            $generatedSlug = $this->generateSlug($category->name);
+            if ($generatedSlug === $slug) {
+                $matchingCategory = $category;
+                break;
+            }
+       }
+        return $matchingCategory;
     }
 
-    public function findBigCategoryBySlug($slug): BigCategory
+    public function findBigCategoryBySlug($slug)
     {
-        $slug = str_replace('-', ' ', $slug);
-        return BigCategory::where('name', 'like', '%' . $slug . '%')->first();
+        $categories = BigCategory::all();
+        $matchingCategory = null;
+
+        foreach ($categories as $category) {
+            $generatedSlug = $this->generateSlug($category->name);
+            if ($generatedSlug === $slug) {
+                $matchingCategory = $category;
+                break;
+            }
+        }
+        return $matchingCategory;
     }
 
     public function getBrandsForCategory($categoryIDS)
     {
+        if (!is_array($categoryIDS)) {
+            $categoryIDS = [$categoryIDS];
+        }
         return Manufacturer::whereHas('products', function ($query) use ($categoryIDS) {
            $query->whereIn('category_id', $categoryIDS);
         })->get(['id', 'name']);
@@ -87,13 +109,6 @@ class CategoryService
     {
         return Category::where('big_category_id', $big_category->id)
             ->get(['id', 'name']);
-    }
-
-    private function generateSlug($name): array|string|null
-    {
-        $slug = str_slug($name);
-        $slug = str_replace('-', ' ', $slug);
-        return preg_replace('/[^a-zA-Z0-9-]/', '', $slug);
     }
 
     private function formatBigCategory($bigCategory): array

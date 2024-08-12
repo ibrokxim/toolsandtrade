@@ -3,13 +3,14 @@
 namespace App\Http\Service;
 
 use App\Models\Product;
+use App\Traits\SlugTrait;
 use Illuminate\Http\Request;
 use App\Traits\PaginationTrait;
 use App\Http\Resources\ProductResource;
 
 class ProductService
 {
-    use PaginationTrait;
+    use PaginationTrait, SlugTrait;
     public function getProducts(Request $request)
     {
         $categories = $request->query('cats');
@@ -29,8 +30,9 @@ class ProductService
 
     public function showProduct($slug)
     {
+        $slug = $this->generateSlug($slug);
         $product = Product::with('categories', 'manufacturers')
-            ->where('name', $slug)
+            ->whereRaw('LOWER(REPLACE(name, " ", "-")) LIKE ?', ['%' . $slug . '%'])
             ->firstOrFail();
         return $product;
     }

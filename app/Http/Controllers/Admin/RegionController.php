@@ -51,7 +51,7 @@ class RegionController extends Controller
         return redirect()->route('admin.regions.index')->with('success', 'Region updated successfully!');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $region = Region::findOrFail($id);
         $region->delete();

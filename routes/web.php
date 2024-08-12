@@ -10,9 +10,6 @@ use App\Http\Controllers\Admin\BigCategoryController;
 
 Route::middleware(['admin'])->group(function () {
     Route::get('{country}/admin', [AuthController::class, 'login'])->name('admin.login');
-//    Route::get('/admin/{any?}', function () {
-//        return redirect()->route('admin.login');
-//    })->where('any', '.*');
 });
 
 Route::prefix('admin')->group(function () {
