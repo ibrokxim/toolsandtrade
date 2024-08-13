@@ -32,7 +32,16 @@ class ProductService
     {
         $slug = $this->generateSlug($slug);
         $product = Product::with('categories', 'manufacturers')
-            ->whereRaw('LOWER(REPLACE(name, " ", "-")) LIKE ?', ['%' . $slug . '%'])
+            ->whereRaw(     'LOWER(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(REPLACE(name, "&", "and"), "/", "-"),
+                        ",", "-"),
+                    ".", "-"),
+                " ", "-")
+            ) LIKE ?',
+                ['%' . $slug . '%'])
             ->firstOrFail();
         return $product;
     }

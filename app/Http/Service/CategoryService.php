@@ -30,12 +30,12 @@ class CategoryService
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
-        $categoryID = $category->id;
+        $categoryID = [$category->id];
         $brands = $this->getBrandsForCategory($categoryID);
         $products = $category->products()->paginate(16);
 
         return[
-            'category' => $category,
+            'categories' => $category,
             'brands' => $this->formatBrands($brands),
             'products' => $products,
             'pagination' => $this->paginate($products)
@@ -111,7 +111,7 @@ class CategoryService
             ->get(['id', 'name']);
     }
 
-    private function formatBigCategory($bigCategory): array
+    private function formatBigCategory($bigCategory)
     {
         return [
             'id' => $bigCategory->id,
@@ -146,6 +146,6 @@ class CategoryService
         $productsQuery = Product::whereIn('category_id', $categories->pluck('id'))
             ->select('id', 'name', 'slug', 'short_description', 'image', 'category_id');
 
-        return $productsQuery->paginate(12);
+        return $productsQuery->paginate(16);
     }
 }
