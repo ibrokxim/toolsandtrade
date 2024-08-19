@@ -18,7 +18,8 @@ class ContactFormMail extends Mailable
 
     public function build()
     {
-        return $this->subject('Contact Form')
+        return $this->from('hello@api.toolsandtrade.com', 'Tools_And_Trade')
+            ->subject('Contact Form')
             ->view('emails.contact');
     }
 

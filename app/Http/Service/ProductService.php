@@ -36,10 +36,12 @@ class ProductService
                 REPLACE(
                     REPLACE(
                         REPLACE(
-                            REPLACE(REPLACE(name, "&", "and"), "/", "-"),
-                        ",", "-"),
-                    ".", "-"),
-                " ", "-")
+                            REPLACE(
+                                REPLACE(REPLACE(name, "&", "and"), "/", "-"),
+                            ",", "-"),
+                        ".", "-"),
+                    " ", "-"),
+                "+", "-")
             ) LIKE ?',
                 ['%' . $slug . '%'])
             ->firstOrFail();

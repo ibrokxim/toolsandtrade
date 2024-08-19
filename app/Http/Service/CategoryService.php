@@ -26,7 +26,7 @@ class CategoryService
     public function getCategoryWithRelations($slug)
     {
         $category = $this->findCategoryBySlug($slug);
-
+        $categories = Category::all();
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
@@ -36,6 +36,7 @@ class CategoryService
 
         return[
             'categories' => $category,
+            'all_categories' => $categories,
             'brands' => $this->formatBrands($brands),
             'products' => $products,
             'pagination' => $this->paginate($products)
