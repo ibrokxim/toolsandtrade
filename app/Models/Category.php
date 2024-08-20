@@ -25,9 +25,10 @@ class Category extends Model
 
     public function getSlugAttribute()
     {
-        $slug = strtolower($this->name);
-        $slug = str_replace(' ', '-', $slug);
-        $slug = preg_replace('/[^a-zA-Z0-9-]/', '', $slug);
+        $slug = str_replace(['&', '/', ',', ' ', '.', '(', ')'], ['and', '-', '-', '-', '-', '-', '-'], $this->name);
+        $slug = preg_replace('/[^a-zA-Z0-9-]/', '-', $slug);
+        $slug = preg_replace('/-+/', '-', $slug);
+        $slug = strtolower($slug);
         return $slug;
     }
 

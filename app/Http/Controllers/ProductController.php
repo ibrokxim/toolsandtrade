@@ -15,7 +15,6 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-
     public function getAllProducts(Request $request)
     {
         $products = $this->productService->getProducts($request);

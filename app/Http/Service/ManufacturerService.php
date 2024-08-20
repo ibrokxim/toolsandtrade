@@ -8,6 +8,7 @@ use App\Models\Manufacturer;
 use Illuminate\Http\Request;
 use App\Traits\PaginationTrait;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\ManufacturerResource;
 
 class ManufacturerService extends CategoryService
 {
@@ -31,16 +32,18 @@ class ManufacturerService extends CategoryService
             $categoryIds = explode(',', $categories);
             $productQuery->whereIn('category_id', $categoryIds);
         }
-
         $products = $productQuery->paginate(12);
-
+        $products->getCollection()->transform(function ($product) {
+            $product->slug = $this->generateSlug($product->name);
+            return $product;
+        });
         $categories = $this->getCategoriesWithProducts($brand);
         $categoriesResource = CategoryResource::collection($categories);
 
         return [
             'categories' => $categoriesResource,
             'brands' => $brand,
-            'products' => $products,
+            'products' => ManufacturerResource::collection($products->items()),
             'pagination' => $this->paginate($products),
         ];
     }

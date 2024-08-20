@@ -9,6 +9,7 @@ use App\Models\BigCategory;
 use Illuminate\Http\Request;
 use App\Models\Manufacturer;
 use App\Traits\PaginationTrait;
+use App\Http\Resources\CategoryResource;
 
 class CategoryService
 {
@@ -34,11 +35,16 @@ class CategoryService
         $brands = $this->getBrandsForCategory($categoryID);
         $products = $category->products()->paginate(16);
 
+        $products->getCollection()->transform(function ($product) {
+            $product->slug = $this->generateSlug($product->name);
+            return $product;
+        });
+
         return[
             'categories' => $category,
             'all_categories' => $categories,
             'brands' => $this->formatBrands($brands),
-            'products' => $products,
+            'products' => CategoryResource::collection($products->items()),
             'pagination' => $this->paginate($products)
             ];
     }
@@ -56,7 +62,10 @@ class CategoryService
         $brands = $this->getBrandsForCategory($categories->pluck('id')->toArray());
 
         $products = $this->formatedProducts($categories);
-
+        $products->getCollection()->transform(function ($product) {
+            $product->slug = $this->generateSlug($product->name);
+            return $product;
+        });
         return [
             'big_category' => $this->formatBigCategory($big_category),
             'categories' => $this->formatCategories($categories),
