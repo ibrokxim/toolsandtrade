@@ -4,6 +4,7 @@ namespace App\Http\Service;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Traits\SlugTrait;
 use Illuminate\Http\Request;
 use App\Models\Manufacturer;
 use App\Traits\PaginationTrait;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class SearchService
 {
-    use PaginationTrait;
+    use PaginationTrait, SlugTrait;
     public function searchManufacturers(Request $request)
     {
         $query = $request->input('query');
@@ -45,21 +46,14 @@ class SearchService
             return [
                 'id' => $product['id'],
                 'name' => $product['name'],
-                'slug' => $product['slug'],
+                'slug' => $this->generateSlug($product['name']),
                 'short_description' => $product['short_description'],
                 'image' => $product['image'],
             ];
         });
         return [
             'data' => $productsData,
-            'pagination' => [
-                'total' => $products->total(),
-                'per_page' => $products->perPage(),
-                'current_page' => $products->currentPage(),
-                'last_page' => $products->lastPage(),
-                'next_page_url' => $products->nextPageUrl(),
-                'prev_page_url' => $products->previousPageUrl(),
-            ],
+            'pagination' => $this->paginate($products),
         ];
     }
 

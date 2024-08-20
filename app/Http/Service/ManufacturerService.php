@@ -7,8 +7,8 @@ use App\Traits\SlugTrait;
 use App\Models\Manufacturer;
 use Illuminate\Http\Request;
 use App\Traits\PaginationTrait;
+use App\Http\Resources\ProductsResource;
 use App\Http\Resources\CategoryResource;
-use App\Http\Resources\ManufacturerResource;
 
 class ManufacturerService extends CategoryService
 {
@@ -33,17 +33,17 @@ class ManufacturerService extends CategoryService
             $productQuery->whereIn('category_id', $categoryIds);
         }
         $products = $productQuery->paginate(12);
-        $products->getCollection()->transform(function ($product) {
-            $product->slug = $this->generateSlug($product->name);
-            return $product;
-        });
+        $productResources = ProductsResource::collection($products->getCollection());
+
         $categories = $this->getCategoriesWithProducts($brand);
         $categoriesResource = CategoryResource::collection($categories);
-
         return [
             'categories' => $categoriesResource,
             'brands' => $brand,
-            'products' => ManufacturerResource::collection($products->items()),
+            'products' => [
+                'current_page' => $products->currentPage(),
+                'data' => $productResources,
+            ],
             'pagination' => $this->paginate($products),
         ];
     }

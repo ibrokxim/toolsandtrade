@@ -43,7 +43,7 @@ class ProductFullResource extends JsonResource
             return [
                 'id' => $product->id,
                 'name' => $product->name,
-                'slug' => $product->slug,
+                'slug' => $this->generateSlug($product->name),
                 'image' => $product->image,
                 'short_description' => $product->short_description,
             ];
