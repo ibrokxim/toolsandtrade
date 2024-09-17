@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BigCategory;
+use App\Models\Main;
 use Illuminate\Http\Request;
 use App\Http\Service\CategoryService;
 use App\Http\Resources\CategoryResource;
@@ -37,5 +38,11 @@ class CategoryController extends Controller
     {
         $big_category = $this->categoryService->getBigCategoryWithRelations($slug);
         return response()->json($big_category);
+    }
+
+    public function mainPage()
+    {
+        $main = Main::where('id', '=', 1)->first();
+        return response()->json($main);
     }
 }
