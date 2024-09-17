@@ -21,6 +21,7 @@ Route::get('brands', [ManufacturerController::class, 'index']);
 Route::get('brands/{slug}', [ManufacturerController::class, 'filterByBrand']);
 
 //CATEGORIES
+Route::get('main', [CategoryController::class, 'mainPage']);
 Route::get('categories', [CategoryController::class, 'getCategories']);
 Route::get('big_category', [CategoryController::class, 'bigCategories']);
 Route::get('big_category/{slug}', [CategoryController::class, 'bigCategoriesBySlug']);

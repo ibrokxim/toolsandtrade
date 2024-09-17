@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\MainController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\RegionController;
@@ -26,14 +27,6 @@ Route::prefix('admin')->group(function () {
         Route::put('/update/{id}', [ProductController::class, 'update'])->name('admin.products.update');
         Route::delete('/delete/{id}', [ProductController::class, 'delete'])->name('admin.products.delete');
     });
-//    Route::resource('products', ProductController::class)->names([
-//        'index' => 'admin.products.index',
-//        'create' => 'admin.products.create',
-//        'store' => 'admin.products.store',
-//        'edit' => 'admin.products.edit',
-//        'update' => 'admin.products.update',
-//        'destroy' => 'admin.products.delete',
-//    ])->except('show');
 
     //Brands
     Route::resource('brands', BrandsController::class)->names([
@@ -74,4 +67,7 @@ Route::prefix('admin')->group(function () {
         'update' => 'admin.big_categories.update',
         'destroy' => 'admin.big_categories.delete',
     ]);
+
+    Route::get('mains/edit/', [MainController::class, 'edit'])->name('admin.mains.edit');
+    Route::put('mains/update', [MainController::class, 'update'])->name('admin.mains.update');
 });
